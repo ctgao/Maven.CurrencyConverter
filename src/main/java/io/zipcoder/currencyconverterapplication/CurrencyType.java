@@ -28,15 +28,24 @@ public enum CurrencyType {
     }
 
     public static CurrencyType getTypeOfCurrency(ConvertableCurrency currency) {
-        String currencyName = currency.getClass().getName();
-        Pattern pattern;
-        Matcher matcher;
+        String currencyName = currency.getClass().getSimpleName();
+//        Pattern pattern;
+//        Matcher matcher;
+//        for(CurrencyType ct : CurrencyType.values()){
+//            String ctName = ct.name();
+//            ctName = ctName.indexOf("_") == -1 ? ctName : ctName.substring(0, ctName.indexOf("_"));
+//            pattern = Pattern.compile(ctName, Pattern.CASE_INSENSITIVE);
+//            matcher = pattern.matcher(currencyName);
+//            if(matcher.find()){
+//                return ct;
+//            }
+//        }
+        // Here's another way that doesn't use pattern and matcher!
+        // You have to get the SIMPLE name otherwise it'll give you the whole entire class
+        // which includes the package name
         for(CurrencyType ct : CurrencyType.values()){
-            String ctName = ct.name();
-            ctName = ctName.indexOf("_") == -1 ? ctName : ctName.substring(0, ctName.indexOf("_"));
-            pattern = Pattern.compile(ctName, Pattern.CASE_INSENSITIVE);
-            matcher = pattern.matcher(currencyName);
-            if(matcher.find()){
+            String ctName = ct.name().replace("_", "");
+            if(currencyName.equalsIgnoreCase(ctName)){
                 return ct;
             }
         }
