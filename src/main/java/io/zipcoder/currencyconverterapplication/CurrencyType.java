@@ -1,5 +1,8 @@
 package io.zipcoder.currencyconverterapplication;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public enum CurrencyType {
     AUSTRALIAN_DOLLAR(2.70),
     CANADIAN_DOLLAR(2.64),
@@ -25,6 +28,19 @@ public enum CurrencyType {
     }
 
     public static CurrencyType getTypeOfCurrency(ConvertableCurrency currency) {
+        String currencyName = currency.getClass().getName();
+        Pattern pattern;
+        Matcher matcher;
+        for(CurrencyType ct : CurrencyType.values()){
+            String ctName = ct.name();
+            ctName = ctName.indexOf("_") == -1 ? ctName : ctName.substring(0, ctName.indexOf("_"));
+            pattern = Pattern.compile(ctName, Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(currencyName);
+            if(matcher.find()){
+                return ct;
+            }
+        }
+        // OH NO BAD CURRENCY!!!
         return null;
     }
 }
